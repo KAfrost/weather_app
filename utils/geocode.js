@@ -5,17 +5,17 @@ const geocode = (location, callback) => {
     // encodeURI allows locations with special characters. 
     const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+ encodeURIComponent(location) + '.json?access_token=pk.eyJ1Ijoic2FwcGhpcmVneXBzeSIsImEiOiJja3VvYzNnNDg0YTNnMm5xbGgwMnNveXZwIn0.y-3D2xU_h5UDtl6U9Bi_iQ'
 
-    request ({url:url, json:true}, (error, response) => {
+    request ({url, json:true}, (error, {body}) => {
         if (error){
             // don't have to provide the second argument, if left off it will be undefined by default. 
             callback("Unable to connect to location services.", undefined);
-        } else if (response.body.message|| response.body.features.length === 0){
+        } else if (body.message|| body.features.length === 0){
             callback("Unable to find location. Try another search.", undefined);
         } else{
             callback(undefined, {
-                latitude : response.body.features[0].center[1],
-                longitude : response.body.features[0].center[0],
-                location: response.body.features[0].place_name
+                latitude : body.features[0].center[1],
+                longitude : body.features[0].center[0],
+                location: body.features[0].place_name
             })
         }
     });

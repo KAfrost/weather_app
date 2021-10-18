@@ -6,16 +6,16 @@ let location = process.argv[2];
 if (!location){
     return console.log("No location found");
 } else {
-    geocode(location, (error, data) => {
+    geocode(location, (error, {latitude, longitude, location} = {}) => {
         if (error){
             return console.log("Error: ", error);
         }
 
-        weather(data.latitude , data.longitude, (error, forecastData) => {
+        weather(latitude , longitude, (error, forecastData) => {
             if (error){
                 return console.log("Error: ", error);
             }
-            console.log(data.location);
+            console.log(location);
             console.log("Data: ", forecastData);
         })
     }); 
